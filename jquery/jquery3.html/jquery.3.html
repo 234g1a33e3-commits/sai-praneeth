@@ -1,66 +1,107 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script&gt;
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do Task Scheduler</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            margin-top: 50px;
+        }
+        .container {
+            background-color: #c7e9f4;
+            padding: 20px;
+            border-radius: 10px;
+            width: 300px;
+        }
+        h2 {
+            text-align: center;
+        }
+        ul {
+            list-style-type: disc;
+            padding-left: 20px;
+        }
+        .task-item {
+            margin-bottom: 10px;
+        }
+        .task-item button {
+            margin-left: 5px;
+            background-color: #012245;
+            border: none;
+            color: white;
+            padding: 5px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .task-item button.delete {
+            background-color: #f64759;
+        }
+        .task-item.completed {
+            text-decoration: line-through;
+            opacity: 0.6;
+        }
+        input[type="text"] {
+            width: calc(100% - 12px);
+            padding: 5px;
+            margin-bottom: 10px;
+        }
+        button#addTask {
+            width: 100%;
+            padding: 8px;
+            background-color: #518ccb;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body>
-  <h2>Hello jQuery</h2>
-  <h3>just for timepass</h3>
-  <button id="btn">Click Me</button>
-    <div class="temp">
-        <p>this is a different division
-            on which we are using the class tags using jquery
-        </p>
+    <div class="container">
+        <h2>Task Scheduler</h2>
+        <ul id="taskList">
+            <li class="task-item">task1 
+                <button class="complete">complete</button>
+                <button class="delete">delete</button>
+            </li>
+            <li class="task-item">task2 
+                <button class="complete">complete</button>
+                <button class="delete">delete</button>
+            </li>
+        </ul>
+        <input type="text" id="taskInput" placeholder="Enter new task">
+        <button id="addTask">Add Task</button>
     </div>
-    <input type="text" id="myInput">
-<p id="output">Hi this text</p>
-<ul id="list">
-  <li>Item 1</li>
-</ul>
-<button id="add">Add Item</button>
-<button id="addf">Add Ite first</button>
-<button id="remove">Remove Last</button>
 
+    <script>
+        $(document).ready(function() {
+            $('#addTask').click(function() {
+                const taskText = $('#taskInput').val().trim();
+                if (taskText) {
+                    const newTask = $('<li class="task-item"></li>').text(taskText);
+                    const completeBtn = $('<button class="complete">complete</button>');
+                    const deleteBtn = $('<button class="delete">delete</button>');
 
-  <script>
-    $(document).ready(function(){
-      $("#btn").click(function(){
-        $("h2").text("Button Clicked!");
-        $("h3").text("Button Clicked! Duplicate");
-        $(".temp").css("background-color", "yellow");
-        $("p").css("font-weight", "bold");
-      });
+                    newTask.append(completeBtn).append(deleteBtn);
+                    $('#taskList').append(newTask);
+                    $('#taskInput').val('');
+                }
+            });
 
+            // Mark task as complete
+            $('#taskList').on('click', '.complete', function() {
+                $(this).parent().toggleClass('completed');
+            });
 
-
-    $("#add").click(function(){
-      $("#list").append("<li>New Item appended from script</li>");
-    });
-    $("#addf").click(function(){
-      $("#list").prepend("<li>New Item prepended from script</li>");
-    });
-    $("#remove").click(function(){
-      $("#list li:first").remove();
-    });
- 
-
-      $("#myInput").keydown(function(){
-      let val = $("#myInput").val();
-      $("#output").text(val);
-    });
-      $("#btn").dblclick(function(){
-        $("h2").text("Button Clicked Twice!");
-        $("h3").text("Button Clicked! Twice Duplicate");
-        $(".temp").css("background-color", "orange");
-        $("p").css("font-weight", "calibri");
-      });
-      $("#btn").hover(function(){
-        $("h2").text("Button Clicked but Hovered!");
-        $("h3").text("Button  and Hovered! Duplicate");
-        $(".temp").css("background-color", "cyan");
-        $("p").css("font-weight", "italic");
-      });
-    });
-  </script>
+            // Delete task
+            $('#taskList').on('click', '.delete', function() {
+                $(this).parent().remove();
+            });
+        });
+    </script>
 </body>
 </html>
